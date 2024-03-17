@@ -1,0 +1,474 @@
+<style>
+    :root {
+        --border-bottom: 1px solid black;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+    }
+
+    .invoice {
+        /* border: var(--border-bottom); */
+        width: 44rem;
+    }
+
+    .invoice__headline {
+        text-align: center;
+        font-weight: bold;
+        padding: 0.6rem;
+        border: var(--border-bottom);
+    }
+
+    .invoice__company {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 4rem;
+        border-left: var(--border-bottom);
+        border-right: var(--border-bottom);
+        border-bottom: var(--border-bottom);
+    }
+
+    .invoice__company--name {
+        color: red;
+        font-size: 2rem;
+    }
+
+    .invoice__company--desc {
+        padding: 0.6rem;
+        text-align: center;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+
+    .invoice__company--gst {
+        color: rgb(18, 18, 141);
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .invoice__address {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-right: var(--border-bottom);
+        border-bottom: var(--border-bottom);
+        border-left: var(--border-bottom);
+    }
+
+    .invoice__address--to {
+        display: flex;
+        justify-content: center;
+        /* align-items: center; */
+        flex-direction: column;
+        width: 20rem;
+        padding: 0.4rem;
+        border-right: var(--border-bottom);
+        height: 8rem;
+    }
+
+    .invoice__address--to>span:nth-child(1) {
+        font-weight: bold;
+        font-size: 0.8rem;
+        padding-bottom: 1.2rem;
+    }
+
+    .invoice__address--to>span:nth-child(2) {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .invoice__address--to>p {
+        font-size: 0.8rem;
+    }
+
+    .invoice__address--to>span:nth-child(4) {
+        padding-top: 1.2rem;
+        font-weight: bold;
+        font-size: 0.8rem;
+    }
+
+    .invoice__address--more {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 24rem;
+        height: 8rem;
+    }
+
+    .invoice__address--more>div {
+        height: 100%;
+        width: 100%;
+        /* padding: 0.6rem; */
+    }
+
+    .invoice__address--more>div:nth-child(1),
+    .invoice__address--more>div:nth-child(2) {
+        border-right: var(--border-bottom);
+    }
+
+
+    .invoice__address--more>div>div:nth-child(1)>span {
+        font-weight: bold;
+        font-size: 0.8rem;
+    }
+
+    .invoice__address--more>div>div:nth-child(2) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 2rem 0;
+        font-weight: bold;
+    }
+
+    .invoice__address--more>div>div:nth-child(1) {
+        border-bottom: var(--border-bottom);
+        padding: 0.6rem;
+    }
+
+    .invoice__pocha {
+        font-weight: bold;
+        font-size: 0.8rem;
+        border-right: var(--border-bottom);
+        /* padding: 0.4rem; */
+    }
+
+    .invoice__pocha--container {
+        border-right: var(--border-bottom);
+        width: 27.95rem;
+    }
+
+    .invoice__pocha--container-po {
+        border-left: var(--border-bottom);
+        border-bottom: var(--border-bottom);
+        padding: 0.2rem 0.4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .invoice__pocha--container-challan {
+        border-left: var(--border-bottom);
+        padding: 0.2rem 0.4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    table {
+        border-collapse: collapse;
+        font-size: 0.8rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    th {
+        border: var(--border-bottom);
+    }
+
+    td {
+        border-right: var(--border-bottom);
+        border-left: var(--border-bottom);
+    }
+
+    th {
+        font-size: 0.6rem;
+        padding: 0.6rem;
+    }
+
+    td {
+        padding: 0.3rem;
+    }
+
+    tr>td:nth-child(1) {
+        width: 2rem;
+    }
+
+    tr>td:nth-child(2) {
+        width: 31rem;
+    }
+
+    tr>td:nth-child(3) {
+        width: 2rem;
+    }
+
+    tr>td:nth-child(4) {
+        width: 2rem;
+    }
+
+    tr>td:nth-child(5) {
+        width: 2rem;
+    }
+
+    tr>td:nth-child(6) {
+        width: 4rem;
+    }
+
+    tr>td:nth-child(7) {
+        width: 4rem;
+    }
+
+    tr>td:nth-child(8) {
+        width: 12rem;
+        text-align: end;
+        font-weight: bold;
+    }
+
+    .invoice__calc {
+        border: var(--border-bottom);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+        font-weight: bold;
+        font-size: 0.8rem;
+    }
+
+    .invoice__calc>div {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: end;
+    }
+
+    .invoice__calc>div>div {
+        width: 8rem;
+        text-align: end;
+        padding: 0 0.3rem;
+    }
+
+    .invoice__calc--inwords {
+        width: 30rem !important;
+        text-align: start !important;
+    }
+
+    .invoice__gst {
+        border-top: var(--border-bottom);
+    }
+
+    .invoice__gst>div:nth-child(1) {
+        width: 18rem
+    }
+
+    .invoice__gst>div {
+        border-left: var(--border-bottom);
+    }
+
+    .invoice__total {
+        border-top: var(--border-bottom);
+    }
+
+    .invoice__tccontainer {
+        border-right: var(--border-bottom);
+        border-bottom: var(--border-bottom);
+        border-left: var(--border-bottom);
+        display: flex;
+        justify-content: center;
+        align-items: start;
+    }
+
+    .invoice__tc {
+        font-size: 0.8rem;
+        font-weight: bold;
+        padding: 0.3rem;
+        border-right: var(--border-bottom);
+    }
+
+    .invoice__tc>p>span {
+        font-size: 0.9rem;
+    }
+
+    .invoice__bank {
+        font-size: 0.8rem;
+        font-weight: bold;
+        padding: 0.3rem;
+    }
+
+    .invoice__bank>p>span {
+        font-size: 0.9rem;
+    }
+
+    .invoice__bank--proprietor {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: red;
+        height: 5rem;
+    }
+
+    .invoice__bank--proprietor>p {
+        font-size: 1rem;
+    }
+
+    .invoice__bank--proprietor>p:nth-child(2) {
+        font-size: 0.8rem;
+        color: #000;
+        padding-top: 1rem;
+    }
+</style>
+
+<div class="container">
+    <div class="invoice">
+        <div class="invoice__headline">
+            <span>TAX INVOICE</span>
+        </div>
+        <div class="invoice__company">
+            <span class="invoice__company--name">A1 CRANE SERVICE</span>
+            <p class="invoice__company--desc">
+                12 Dhumal Chawl, Savarkar Nagar, Near Shivsena Branch, Wagle Estate,Thane(w) - 400606 <br />
+                Email :- nirajshrma368@gmail.com <br />
+                Contact No :- 9869377941 / 9867386620/7021535028
+            </p>
+            <span class="invoice__company--gst">GST NO :- 27AWYPS6485M1Z2</span>
+        </div>
+        <div class="invoice__address">
+            <div class="invoice__address--to">
+                <span>To.</span>
+                <span>{{to_company.name}}</span>
+                <p>{{to_company.address}}</p>
+                <span>GST NO :- {{to_company.gst_no}}</span>
+            </div>
+            <div class="invoice__address--more">
+                <div class="">
+                    <div class="">
+                        <span>Place Of Supply</span>
+                    </div>
+                    <div class="">
+                        <span>{{place_of_supply}}</span>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="">
+                        <span>Invoice No</span>
+                    </div>
+                    <div class="">
+                        <span>{{invoice_no}}</span>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="">
+                        <span>DATE</span>
+                    </div>
+                    <div class="">
+                        <span>{{receipt_date}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="invoice__pocha">
+            <div class="invoice__pocha--container">
+                <div class="invoice__pocha--container-po">
+                    <div class="">
+                        <span>Your P.O. No :- {{po_no}}</span>
+                    </div>
+                    <div class="">
+                        <span>Date :- {{po_no_date}}</span>
+                    </div>
+                </div>
+                <div class="invoice__pocha--container-challan">
+                    <div class="">
+                        <span>CHALLAN No. :- {{challan_no}}</span>
+                    </div>
+                    <div class="">
+                        <span>Date :- {{challan_no_date}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <table>
+                <tr>
+                    <th>Sr No</th>
+                    <th>DESCRIPTION OF SERVICE </th>
+                    <th>HSN Code </th>
+                    <th>Size</th>
+                    <th>Weight (Kg./Nos)</th>
+                    <th>Qty (Nos./Kg)</th>
+                    <th>Rate (Rs. P.P)</th>
+                    <th>AMOUNT</th>
+                </tr>
+                <tbody>
+                    {{#each items}}
+                    <tr>
+                        <td>{{sr_no}}</td>
+                        <td>{{description_of_service}}</td>
+                        <td>{{hsn_code}}</td>
+                        <td>{{size}}</td>
+                        <td>{{weight_in_kg_or_nos}}</td>
+                        <td>{{qty_nos_or_kg}}</td>
+                        <td>{{rate_in_rs_p_p}}</td>
+                        <td>{{amount}} /-</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="invoice__calc">
+            <div class="">
+                <div class=""></div>
+                <div class="">
+                    <span>{{total}} /-</span>
+                </div>
+            </div>
+            <div class="invoice__gst">
+                <div class=""></div>
+                <div class=""><span>CGST @9%</span></div>
+                <div class=""><span>{{cgst}} /-</span></div>
+            </div>
+            <div class="invoice__gst">
+                <div class=""></div>
+                <div class=""><span>SGST @9%</span></div>
+                <div class=""><span>{{sgst}} /-</span></div>
+            </div>
+            <div class="invoice__total">
+                <div class="invoice__calc--inwords">
+                    <span>{{final_total_in_words}}</span>
+                </div>
+                <div class="">
+                    <span style="font-weight: bold;">Rs.</span> &nbsp; &nbsp; &nbsp;
+                    <span>{{final_total}} /-</span>
+                </div>
+            </div>
+        </div>
+        <div class="invoice__tccontainer">
+            <div class="invoice__tc">
+                <p>
+                    <span>Perm. Income Tax No :- AWYPS6485M </span> <br /> <br />
+                    1) Goods Once sold will not be taken back. <br />
+                    2) Our responsibility ceases as soon as the goods leaves our warehouse. <br />
+                    3) Payment within due date otherwise 21% p.a intrest will be charged. <br />
+                    4) Subject to Thane Jurisdiction. <br /> <br />
+                    Prepared by <br /><br /><br /><br />
+
+
+                    Checked by <br />
+                </p>
+            </div>
+            <div class="invoice__bank">
+                <p>
+                    <span>Company's Bank Details</span> <br /> <br />
+                    Bank Name :- Gopinath Patil Parsik Janata Sahakari Bank Ltd. <br />
+                    A/C No. :- 008011300001721 <br />
+                    Branch :- Louiswadi Branch <br />
+                    IFSC Code :- PJSB0000010 <br /> <br />
+                </p>
+                <div class="invoice__bank--proprietor">
+                    <p>For. A-1 Crane Service</p>
+                    <p>Proprietor</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

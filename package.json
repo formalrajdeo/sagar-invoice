@@ -1,0 +1,23 @@
+{
+  "name": "@chuongtrh/html-to-pdf",
+  "version": "1.0.1",
+  "description": "Generate a simple invoice PDF from HTML using puppeteer & handlebars",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "chuongtrh",
+  "license": "MIT",
+  "dependencies": {
+    "handlebars": "^4.7.7",
+    "puppeteer": "^14.2.0"
+  },
+  "keywords": [
+    "puppeteer",
+    "pdf",
+    "handlebars",
+    "html_to_pdf",
+    "html_2_pdf"
+  ],
+  "repository": "github:chuongtrh/html_to_pdf"
+}
