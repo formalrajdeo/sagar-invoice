@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="checkbox"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Style for logout button */
+        .logout-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .logout-btn:hover {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Invoice Form</h1>
+        <form id="invoiceForm">
+            <label for="to_company_name">Company Name:</label>
+            <input type="text" id="to_company_name" name="to_company_name" value="Bombay Crimpers Pvt Ltd" required>
+
+            <label for="to_company_address">Company Address:</label>
+            <textarea id="to_company_address" name="to_company_address"
+                required>Kalyan , Bhiwandi road , Saroli Bhiwandi , Thane</textarea>
+
+            <label for="to_company_gst">Company Gst:</label>
+            <input type="text" id="to_company_gst" name="to_company_gst" value="27AAACB7204N1ZM" required>
+
+            <label for="place_of_supply">Place of Supply:</label>
+            <input type="text" id="place_of_supply" name="place_of_supply" value="M.H." required>
+
+            <label for="invoice_no">Invoice No:</label>
+            <input type="text" id="invoice_no" name="invoice_no" value="051/23-24" required>
+
+            <label for="receipt_date">Receipt Date:</label>
+            <input type="text" id="receipt_date" name="receipt_date" value="03.01.2024" required>
+
+            <label for="po_no">PO No:</label>
+            <input type="text" id="po_no" name="po_no" value="359" required>
+
+            <label for="po_no_date">PO No Date:</label>
+            <input type="text" id="po_no_date" name="po_no_date" value="02/01/24" required>
+
+            <label for="challan_no">Challan No:</label>
+            <input type="text" id="challan_no" name="challan_no" value="0108" required>
+
+            <label for="challan_no_date">Challan No Date:</label>
+            <input type="text" id="challan_no_date" name="challan_no_date" value="02/01/24" required>
+
+            <!-- Loop through items array -->
+            <label>Items:</label><br>
+            <div id="items">
+                <div class="item">
+                    <label>Description of Service:</label>
+                    <input type="text" name="description_of_service" value="1st Back Gear Pinion Shaft" required>
+                    <label>HSN Code:</label>
+                    <input type="text" name="hsn_code[]" value="8431">
+                </div>
+                <div class="item">
+                    <label>Description of Service:</label>
+                    <input type="text" name="description_of_service" value="Wire Rope Hoist Repair Labour Charge"
+                        required>
+                    <label>HSN Code:</label>
+                    <input type="text" name="hsn_code[]" value="9987">
+                </div>
+            </div>
+            <button type="button" id="addItemBtn">Add Item</button>
+
+            <br>
+
+            <label for="total">Total:</label>
+            <input type="text" id="total" name="total" value="16860" required>
+
+            <label for="cgst">CGST:</label>
+            <input type="text" id="cgst" name="cgst" value="1517" required>
+
+            <label for="sgst">SGST:</label>
+            <input type="text" id="sgst" name="sgst" value="1517" required>
+
+            <label for="final_total">Final Total:</label>
+            <input type="text" id="final_total" name="final_total" value="19894" required>
+
+            <label for="final_total_in_words">Final Total in Words:</label>
+            <input type="text" id="final_total_in_words" name="final_total_in_words"
+                value="Ninteen thousand Eight hundered Ninty Four only" required>
+
+            <input type="submit" value="Submit">
+        </form>
+        <!-- Logout button -->
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+    <script>
+        document.getElementById('invoiceForm').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Serialize form data into JSON object
+            var formData = {};
+            var formElements = this.elements;
+            for (var i = 0; i < formElements.length; i++) {
+                var element = formElements[i];
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.tagName === 'SELECT') {
+                    formData[element.name] = element.value;
+                }
+            }
+
+            // Extract item details
+            var items = [];
+            var itemDivs = document.querySelectorAll('.item');
+            itemDivs.forEach(function (itemDiv, index) {
+                var item = {
+                    "sr_no": index + 1,
+                    "description_of_service": itemDiv.querySelector('input[name="description_of_service"]').value,
+                    "hsn_code": itemDiv.querySelector('input[name="hsn_code[]"]').value,
+                    "size": "",
+                    "weight_in_kg_or_nos": "",
+                    "qty_nos_or_kg": 0,
+                    "rate_in_rs_p_p": 0,
+                    "amount": 0
+                };
+                items.push(item);
+            });
+
+            formData.items = items;
+
+            try {
+                // Send JSON data to the server using Fetch API
+                const response = await fetch('/api/download-invoice', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ dataBinding: formData })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                // Convert response to blob (binary data)
+                const blob = await response.blob();
+
+                // Create a temporary URL for the blob
+                const url = window.URL.createObjectURL(blob);
+
+                // Create a temporary link element
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'invoice.pdf'; // Set the filename
+                a.click();
+
+                // Cleanup
+                window.URL.revokeObjectURL(url);
+
+                console.log('Invoice downloaded successfully');
+            } catch (error) {
+                console.error('Error downloading invoice:', error);
+            }
+        });
+
+        document.getElementById('addItemBtn').addEventListener('click', function () {
+            var itemsDiv = document.getElementById('items');
+            var newItemDiv = document.createElement('div');
+            newItemDiv.className = 'item';
+            newItemDiv.innerHTML = `
+                <label>Description of Service:</label>
+                <input type="text" name="description_of_service" required>
+                <label>HSN Code:</label>
+                <input type="text" name="hsn_code[]">
+                <button type="button" class="removeItemBtn">Remove</button>
+            `;
+            itemsDiv.appendChild(newItemDiv);
+        });
+
+        document.addEventListener('click', function (event) {
+            if (event.target && event.target.className == 'removeItemBtn') {
+                event.target.parentNode.remove();
+            }
+        });
+
+        // Event listener for logout button click
+        document.getElementById('logoutBtn').addEventListener('click', async function () {
+            try {
+                // Send a request to the logout route
+                const response = await fetch('/logout', {
+                    method: 'GET'
+                });
+
+                if (response.ok) {
+                    // Redirect to the login page after successful logout
+                    window.location.href = '/login';
+                } else {
+                    throw new Error('Failed to logout');
+                }
+            } catch (error) {
+                console.error('Error logging out:', error);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
