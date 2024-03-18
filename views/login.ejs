@@ -68,6 +68,8 @@
         .error {
             color: red;
             margin-top: 5px;
+            text-align: center;
+            /* Center align the error message */
         }
     </style>
 </head>
@@ -118,13 +120,21 @@
                 const contentType = response.headers.get('content-type');
                 if (contentType && contentType.includes('application/json')) {
                     const responseData = await response.json();
-                    // Handle JSON response data (if needed)
+                    console.log('Response Data:', responseData); // Log response data
+                    // Display error message if it exists
+                    if (responseData.error) {
+                        console.log('Error Message:', responseData.error); // Log error message
+                        document.getElementById('errorMsg').textContent = responseData.error;
+                    } else {
+                        // Handle other JSON response data (if needed)
+                    }
                 } else {
                     // Redirect to the form page after successful login
                     window.location.href = '/form';
                 }
             } catch (error) {
                 console.error('Error submitting login form:', error.message);
+                document.getElementById('errorMsg').textContent = 'Invalid username or password';
             }
         });
     </script>

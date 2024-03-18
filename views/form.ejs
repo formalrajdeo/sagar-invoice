@@ -35,6 +35,7 @@
         }
 
         input[type="text"],
+        input[type="number"],
         input[type="checkbox"],
         textarea {
             width: 100%;
@@ -57,6 +58,20 @@
 
         input[type="submit"]:hover {
             background-color: #45a049;
+        }
+
+        input[type="reset"] {
+            background-color: #738673;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="reset"]:hover {
+            background-color: #131a14;
         }
 
         /* Style for logout button */
@@ -95,82 +110,90 @@
         <h1>Invoice Form</h1>
         <form id="invoiceForm">
             <label for="to_company_name">Company Name:</label>
-            <input type="text" id="to_company_name" name="to_company_name" value="Bombay Crimpers Pvt Ltd" required>
+            <input type="text" id="to_company_name" name="to_company_name" value="" required>
 
             <label for="to_company_address">Company Address:</label>
-            <textarea id="to_company_address" name="to_company_address"
-                required>Kalyan , Bhiwandi road , Saroli Bhiwandi , Thane</textarea>
+            <textarea id="to_company_address" name="to_company_address" required></textarea>
 
             <label for="to_company_gst_no">Company Gst:</label>
-            <input type="text" id="to_company_gst_no" name="to_company_gst_no" value="27AAACB7204N1ZM" required>
+            <input type="text" id="to_company_gst_no" name="to_company_gst_no" value="" required>
 
             <label for="place_of_supply">Place of Supply:</label>
-            <input type="text" id="place_of_supply" name="place_of_supply" value="M.H." required>
+            <input type="text" id="place_of_supply" name="place_of_supply" value="" required>
 
             <label for="invoice_no">Invoice No:</label>
-            <input type="text" id="invoice_no" name="invoice_no" value="051/23-24" required>
+            <input type="text" id="invoice_no" name="invoice_no" value="" required>
 
             <label for="receipt_date">Receipt Date:</label>
-            <input type="text" id="receipt_date" name="receipt_date" value="03.01.2024" required>
+            <input type="text" id="receipt_date" name="receipt_date" value="" required>
 
             <label for="po_no">PO No:</label>
-            <input type="text" id="po_no" name="po_no" value="359" required>
+            <input type="text" id="po_no" name="po_no" value="" required>
 
             <label for="po_no_date">PO No Date:</label>
-            <input type="text" id="po_no_date" name="po_no_date" value="02/01/24" required>
+            <input type="text" id="po_no_date" name="po_no_date" value="" required>
 
             <label for="challan_no">Challan No:</label>
-            <input type="text" id="challan_no" name="challan_no" value="0108" required>
+            <input type="text" id="challan_no" name="challan_no" value="" required>
 
             <label for="challan_no_date">Challan No Date:</label>
-            <input type="text" id="challan_no_date" name="challan_no_date" value="02/01/24" required>
+            <input type="text" id="challan_no_date" name="challan_no_date" value="" required>
 
             <!-- Loop through items array -->
             <label>Items:</label><br>
             <div id="items">
                 <div class="item">
                     <label>Description of Service:</label>
-                    <input type="text" name="description_of_service" value="1st Back Gear Pinion Shaft" required>
+                    <input type="text" name="description_of_service" value="" required>
                     <label>HSN Code:</label>
-                    <input type="text" name="hsn_code" value="8431">
+                    <input type="text" name="hsn_code" value="">
                     <label>Size:</label>
-                    <input type="text" name="size" value="0">
+                    <input type="text" name="size" value="">
                     <label>Weight in kg or nos:</label>
-                    <input type="text" name="weight_in_kg_or_nos" value="0">
+                    <input type="text" name="weight_in_kg_or_nos" value="">
                     <label>Qty nos or kg:</label>
-                    <input type="text" name="qty_nos_or_kg" value="2" required>
+                    <input type="text" name="qty_nos_or_kg" value="" required>
                     <label>Rate in Rs. per piece:</label>
-                    <input type="text" name="rate_in_rs_p_p" value="5930" required>
+                    <input type="text" name="rate_in_rs_p_p" value="" required>
                     <label>Amount:</label>
-                    <input type="text" name="amount" value="11860" required>
+                    <input type="text" name="amount" value="" required>
                 </div>
             </div>
             <button type="button" id="addItemBtn">Add Item</button>
-
             <br>
 
             <label for="total">Total:</label>
-            <input type="text" id="total" name="total" value="16860" required>
+            <input type="text" id="total" name="total" value="" required>
 
             <label for="cgst">CGST:</label>
-            <input type="text" id="cgst" name="cgst" value="1517" required>
+            <input type="text" id="cgst" name="cgst" value="" required>
 
             <label for="sgst">SGST:</label>
-            <input type="text" id="sgst" name="sgst" value="1517" required>
+            <input type="text" id="sgst" name="sgst" value="" required>
 
             <label for="final_total">Final Total:</label>
-            <input type="text" id="final_total" name="final_total" value="19894" required>
+            <input type="text" id="final_total" name="final_total" value="" required>
 
             <label for="final_total_in_words">Final Total in Words:</label>
-            <input type="text" id="final_total_in_words" name="final_total_in_words"
-                value="Ninteen thousand Eight hundered Ninty Four only" required>
+            <input type="text" id="final_total_in_words" name="final_total_in_words" value="" required>
 
             <input type="submit" value="Submit">
+            <input id="resetBtn" type="reset">
         </form>
         <!-- Logout button -->
         <button class="logout-btn" id="logoutBtn">Logout</button>
     </div>
     <script>
+        // Event listener for reset button click
+        document.getElementById('resetBtn').addEventListener('click', function () {
+            // Reset the form
+            document.getElementById('invoiceForm').reset();
+            // Recalculate total, CGST, SGST, and final total
+            calculateTotal();
+            calculateCGST_SGST();
+            calculateFinalTotal();
+        });
+
         // Function to calculate amount based on quantity and rate
         function calculateAmount(itemDiv) {
             let qty = parseFloat(itemDiv.querySelector('input[name="qty_nos_or_kg"]').value);

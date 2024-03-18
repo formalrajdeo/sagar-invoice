@@ -88,8 +88,8 @@ app.post('/login', (req, res) => {
     // Redirect to form page after successful login
     res.redirect('/form');
   } else {
-    // If credentials are invalid, render the login form again with an error message
-    res.render('login', { error: 'Invalid username or password' }); // Pass error message
+    // If credentials are invalid, send a JSON response with an error message
+    res.status(401).json({ error: 'Invalid username or password' });
   }
 });
 
