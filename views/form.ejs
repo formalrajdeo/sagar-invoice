@@ -76,8 +76,16 @@
         }
 
         #items {
-            /* border: 1px solid black; */
-            background-color: #f5eeee;
+            border: 1px solid gray;
+            padding: 0.4rem;
+            border-radius: 0.6rem;
+        }
+
+        .item {
+            border: 1px solid blue;
+            padding: 0.4rem;
+            border-radius: 0.6rem;
+            margin-top: 1rem;
         }
     </style>
 </head>
@@ -163,8 +171,111 @@
         <button class="logout-btn" id="logoutBtn">Logout</button>
     </div>
     <script>
+        // Function to calculate amount based on quantity and rate
+        function calculateAmount(itemDiv) {
+            let qty = parseFloat(itemDiv.querySelector('input[name="qty_nos_or_kg"]').value);
+            let rate = parseFloat(itemDiv.querySelector('input[name="rate_in_rs_p_p"]').value);
+            let amount = isNaN(qty) || isNaN(rate) ? 0 : qty * rate;
+            itemDiv.querySelector('input[name="amount"]').value = amount.toFixed(2); // Display amount with 2 decimal places
+            return amount;
+        }
+
+        // Function to calculate total amount
+        function calculateTotal() {
+            let total = 0;
+            let itemDivs = document.querySelectorAll('.item');
+            itemDivs.forEach(function (itemDiv) {
+                total += calculateAmount(itemDiv);
+            });
+            document.getElementById('total').value = total.toFixed(2); // Display total with 2 decimal places
+            return total;
+        }
+
+        // Function to calculate CGST and SGST
+        function calculateCGST_SGST() {
+            let total = calculateTotal();
+            let cgst = total * 0.09; // CGST rate is 9%
+            let sgst = cgst; // SGST rate is also 9%
+            document.getElementById('cgst').value = cgst.toFixed(2);
+            document.getElementById('sgst').value = sgst.toFixed(2);
+            return {
+                cgst: cgst,
+                sgst: sgst
+            };
+        }
+
+        // Function to calculate final total
+        function calculateFinalTotal() {
+            let total = calculateTotal();
+            let cgst_sgst = calculateCGST_SGST();
+            let finalTotal = total + cgst_sgst.cgst + cgst_sgst.sgst;
+            document.getElementById('final_total').value = finalTotal.toFixed(2);
+            let finalTotalInWords = convertNumberToWords(finalTotal); // Convert final total to words
+            document.getElementById('final_total_in_words').value = finalTotalInWords;
+            return finalTotal;
+        }
+
+        // Function to convert number to words
+        function convertNumberToWords(number) {
+            let units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+            let teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+            let tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+            if (number == 0) {
+                return 'Zero';
+            }
+
+            // Function to recursively convert numbers to words
+            function convertToWords(num) {
+                let words = '';
+
+                if (num < 10) {
+                    words += units[num];
+                } else if (num < 20) {
+                    words += teens[num - 10];
+                } else if (num < 100) {
+                    words += tens[Math.floor(num / 10)];
+                    if (num % 10 !== 0) {
+                        words += ' ' + units[num % 10];
+                    }
+                } else if (num < 1000) {
+                    words += units[Math.floor(num / 100)] + ' Hundred';
+                    if (num % 100 !== 0) {
+                        words += ' and ' + convertToWords(num % 100);
+                    }
+                } else if (num < 1000000) {
+                    words += convertToWords(Math.floor(num / 1000)) + ' Thousand';
+                    if (num % 1000 !== 0) {
+                        words += ' ' + convertToWords(num % 1000);
+                    }
+                } else if (num < 1000000000) {
+                    words += convertToWords(Math.floor(num / 1000000)) + ' Million';
+                    if (num % 1000000 !== 0) {
+                        words += ' ' + convertToWords(num % 1000000);
+                    }
+                } else {
+                    words += convertToWords(Math.floor(num / 1000000000)) + ' Billion';
+                    if (num % 1000000000 !== 0) {
+                        words += ' ' + convertToWords(num % 1000000000);
+                    }
+                }
+
+                return words;
+            }
+
+            let words = convertToWords(Math.floor(number));
+            let decimalPart = Math.round((number - Math.floor(number)) * 100); // Get the decimal part
+            if (decimalPart > 0) {
+                words += ' and ' + convertToWords(decimalPart) + ' Paisa'; // Append Paisa for decimal part
+            }
+            return words;
+        }
+
         document.getElementById('invoiceForm').addEventListener('submit', async function (event) {
             event.preventDefault(); // Prevent the default form submission
+
+            // Calculate final total
+            calculateFinalTotal();
 
             // Serialize form data into JSON object
             var formData = {};
@@ -230,34 +341,60 @@
             }
         });
 
+        // Event listener for adding item
         document.getElementById('addItemBtn').addEventListener('click', function () {
-            var itemsDiv = document.getElementById('items');
-            var newItemDiv = document.createElement('div');
+            let itemsDiv = document.getElementById('items');
+            let newItemDiv = document.createElement('div');
             newItemDiv.className = 'item';
             newItemDiv.innerHTML = `
-                <label>Description of Service:</label>
-                <input type="text" name="description_of_service" required>
-                <label>HSN Code:</label>
-                <input type="text" name="hsn_code">
-                <label>Size:</label>
-                <input type="text" name="size">
-                <label>Weight in kg or nos:</label>
-                <input type="text" name="weight_in_kg_or_nos">
-                <label>Qty nos or kg:</label>
-                <input type="text" name="qty_nos_or_kg">
-                <label>Rate in Rs. per piece:</label>
-                <input type="text" name="rate_in_rs_p_p">
-                <label>Amount:</label>
-                <input type="text" name="amount">
-                <button type="button" class="removeItemBtn">Remove</button>
-            `;
+    <label>Description of Service:</label>
+    <input type="text" name="description_of_service" required>
+    <label>HSN Code:</label>
+    <input type="text" name="hsn_code">
+    <label>Size:</label>
+    <input type="text" name="size">
+    <label>Weight in kg or nos:</label>
+    <input type="text" name="weight_in_kg_or_nos">
+    <label>Qty nos or kg:</label>
+    <input type="text" name="qty_nos_or_kg" onchange="calculateAmount(this.parentNode)">
+    <label>Rate in Rs. per piece:</label>
+    <input type="text" name="rate_in_rs_p_p" onchange="calculateAmount(this.parentNode)">
+    <label>Amount:</label>
+    <input type="text" name="amount" readonly>
+    <button type="button" class="removeItemBtn">Remove</button>
+`;
+
             itemsDiv.appendChild(newItemDiv);
+
+            // Attach event listeners for newly added inputs
+            let inputs = newItemDiv.querySelectorAll('input[name="qty_nos_or_kg"], input[name="rate_in_rs_p_p"]');
+            inputs.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    calculateAmount(newItemDiv); // Calculate amount when quantity or rate is changed
+                    calculateTotal(); // Recalculate total
+                    calculateCGST_SGST(); // Recalculate CGST and SGST
+                    calculateFinalTotal(); // Recalculate final total
+                });
+            });
         });
 
+        // Event listener for removing item
         document.addEventListener('click', function (event) {
             if (event.target && event.target.className == 'removeItemBtn') {
                 event.target.parentNode.remove();
+                calculateTotal(); // Recalculate total when an item is removed
             }
+        });
+
+        // Event listeners for dynamically updating values
+        let inputs = document.querySelectorAll('input[name="qty_nos_or_kg"], input[name="rate_in_rs_p_p"]');
+        inputs.forEach(function (input) {
+            input.addEventListener('input', function () {
+                calculateAmount(this.parentNode.parentNode); // Calculate amount when quantity or rate is changed
+                calculateTotal(); // Recalculate total
+                calculateCGST_SGST(); // Recalculate CGST and SGST
+                calculateFinalTotal(); // Recalculate final total
+            });
         });
 
         // Event listener for logout button click
