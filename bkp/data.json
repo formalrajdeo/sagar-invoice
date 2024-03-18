@@ -1,0 +1,42 @@
+{
+  "dataBinding": {
+    "to_company_name": "Bombay Crimpers Pvt Ltd",
+    "to_company_address": "Kalyan , Bhiwandi road , Saroli Bhiwandi , Thane",
+    "to_company_gst_no": "27AAACB7204N1ZM",
+    "place_of_supply": "M.H.",
+    "invoice_no": "051/23-24",
+    "receipt_date": "03.01.2024",
+    "po_no": "359",
+    "po_no_date": "02/01/24",
+    "challan_no": "0108",
+    "challan_no_date": "02/01/24",
+    "items": [
+      {
+        "sr_no": 1,
+        "description_of_service": "1st Back Gear Pinion Shaft",
+        "hsn_code": "8431",
+        "size": "",
+        "weight_in_kg_or_nos": "",
+        "qty_nos_or_kg": 2,
+        "rate_in_rs_p_p": 5930,
+        "amount": 11860
+      },
+      {
+        "sr_no": 2,
+        "description_of_service": "Wire Rope Hoist Repair Labour Charge",
+        "hsn_code": "9987",
+        "size": "",
+        "weight_in_kg_or_nos": "",
+        "qty_nos_or_kg": 1,
+        "rate_in_rs_p_p": 5000,
+        "amount": 5000
+      }
+    ],
+    "total": 16860,
+    "cgst": 1517,
+    "sgst": 1517,
+    "final_total": 19894,
+    "final_total_in_words": "Ninteen thousand Eight hundered Ninty Four only",
+    "isWatermark": false
+  }
+}

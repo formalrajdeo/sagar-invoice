@@ -17,7 +17,6 @@
     }
 
     .invoice {
-        /* border: var(--border-bottom); */
         width: 44rem;
     }
 
@@ -69,7 +68,6 @@
     .invoice__address--to {
         display: flex;
         justify-content: center;
-        /* align-items: center; */
         flex-direction: column;
         width: 20rem;
         padding: 0.4rem;
@@ -109,7 +107,6 @@
     .invoice__address--more>div {
         height: 100%;
         width: 100%;
-        /* padding: 0.6rem; */
     }
 
     .invoice__address--more>div:nth-child(1),
@@ -141,7 +138,6 @@
         font-weight: bold;
         font-size: 0.8rem;
         border-right: var(--border-bottom);
-        /* padding: 0.4rem; */
     }
 
     .invoice__pocha--container {
@@ -336,9 +332,9 @@
         <div class="invoice__address">
             <div class="invoice__address--to">
                 <span>To.</span>
-                <span>{{to_company.name}}</span>
-                <p>{{to_company.address}}</p>
-                <span>GST NO :- {{to_company.gst_no}}</span>
+                <span>{{to_company_name}}</span>
+                <p>{{to_company_address}}</p>
+                <span>GST NO :- {{to_company_gst_no}}</span>
             </div>
             <div class="invoice__address--more">
                 <div class="">
