@@ -74,6 +74,11 @@
         .logout-btn:hover {
             background-color: #dc3545;
         }
+
+        #items {
+            /* border: 1px solid black; */
+            background-color: #f5eeee;
+        }
     </style>
 </head>
 
@@ -88,8 +93,8 @@
             <textarea id="to_company_address" name="to_company_address"
                 required>Kalyan , Bhiwandi road , Saroli Bhiwandi , Thane</textarea>
 
-            <label for="to_company_gst">Company Gst:</label>
-            <input type="text" id="to_company_gst" name="to_company_gst" value="27AAACB7204N1ZM" required>
+            <label for="to_company_gst_no">Company Gst:</label>
+            <input type="text" id="to_company_gst_no" name="to_company_gst_no" value="27AAACB7204N1ZM" required>
 
             <label for="place_of_supply">Place of Supply:</label>
             <input type="text" id="place_of_supply" name="place_of_supply" value="M.H." required>
@@ -119,14 +124,17 @@
                     <label>Description of Service:</label>
                     <input type="text" name="description_of_service" value="1st Back Gear Pinion Shaft" required>
                     <label>HSN Code:</label>
-                    <input type="text" name="hsn_code[]" value="8431">
-                </div>
-                <div class="item">
-                    <label>Description of Service:</label>
-                    <input type="text" name="description_of_service" value="Wire Rope Hoist Repair Labour Charge"
-                        required>
-                    <label>HSN Code:</label>
-                    <input type="text" name="hsn_code[]" value="9987">
+                    <input type="text" name="hsn_code" value="8431">
+                    <label>Size:</label>
+                    <input type="text" name="size" value="0">
+                    <label>Weight in kg or nos:</label>
+                    <input type="text" name="weight_in_kg_or_nos" value="0">
+                    <label>Qty nos or kg:</label>
+                    <input type="text" name="qty_nos_or_kg" value="2" required>
+                    <label>Rate in Rs. per piece:</label>
+                    <input type="text" name="rate_in_rs_p_p" value="5930" required>
+                    <label>Amount:</label>
+                    <input type="text" name="amount" value="11860" required>
                 </div>
             </div>
             <button type="button" id="addItemBtn">Add Item</button>
@@ -175,12 +183,12 @@
                 var item = {
                     "sr_no": index + 1,
                     "description_of_service": itemDiv.querySelector('input[name="description_of_service"]').value,
-                    "hsn_code": itemDiv.querySelector('input[name="hsn_code[]"]').value,
-                    "size": "",
-                    "weight_in_kg_or_nos": "",
-                    "qty_nos_or_kg": 0,
-                    "rate_in_rs_p_p": 0,
-                    "amount": 0
+                    "hsn_code": itemDiv.querySelector('input[name="hsn_code"]').value,
+                    "size": itemDiv.querySelector('input[name="size"]').value,
+                    "weight_in_kg_or_nos": itemDiv.querySelector('input[name="weight_in_kg_or_nos"]').value,
+                    "qty_nos_or_kg": itemDiv.querySelector('input[name="qty_nos_or_kg"]').value,
+                    "rate_in_rs_p_p": itemDiv.querySelector('input[name="rate_in_rs_p_p"]').value,
+                    "amount": itemDiv.querySelector('input[name="amount"]').value
                 };
                 items.push(item);
             });
@@ -230,7 +238,17 @@
                 <label>Description of Service:</label>
                 <input type="text" name="description_of_service" required>
                 <label>HSN Code:</label>
-                <input type="text" name="hsn_code[]">
+                <input type="text" name="hsn_code">
+                <label>Size:</label>
+                <input type="text" name="size">
+                <label>Weight in kg or nos:</label>
+                <input type="text" name="weight_in_kg_or_nos">
+                <label>Qty nos or kg:</label>
+                <input type="text" name="qty_nos_or_kg">
+                <label>Rate in Rs. per piece:</label>
+                <input type="text" name="rate_in_rs_p_p">
+                <label>Amount:</label>
+                <input type="text" name="amount">
                 <button type="button" class="removeItemBtn">Remove</button>
             `;
             itemsDiv.appendChild(newItemDiv);
